@@ -9,26 +9,6 @@ import UIKit
 import Combine
 import SnapKit
 
-class SignUpViewModel: ObservableObject {
-    
-    @Published var acceptedTerms: Bool = false
-    
-    @Published var acceptedPrivacy: Bool = false
-    
-    @Published var name: String = ""
-    
-    private var stream: AnyCancellable?
-    
-    var validToSubmit: AnyPublisher<Bool, Never> {
-        return Publishers.CombineLatest3($acceptedTerms, $acceptedPrivacy, $name)
-            .map { terms, privacy, name in
-                terms && privacy && !name.isBlank
-            }.eraseToAnyPublisher()
-    }
-    
-    
-}
-
 class SignUpViewController: UIViewController {
     
     private var subscription: AnyCancellable?
@@ -52,7 +32,6 @@ class SignUpViewController: UIViewController {
         setupView()
         
         setupBindings()
-        
     }
     
     func setupBindings() {
@@ -107,6 +86,8 @@ class SignUpViewController: UIViewController {
     @objc func submitAction(sender: UIButton) {
         
         print("Submit...")
+        
+        self.present(TodoListViewController(), animated: false, completion: nil)
 
     }
     
